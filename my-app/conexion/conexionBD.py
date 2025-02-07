@@ -7,11 +7,11 @@ def connectionBD():
     try:
         # Parámetros de conexión a PostgreSQL
         connection = psycopg2.connect(
-            host="localhost",      # Host de la base de datos
-            user="postgres",       # Usuario de la base de datos
-            password="openpgpwd",  # Contraseña del usuario
-            database="unodc",    # Nombre de la base de datos
-            port="5432"            # Puerto de PostgreSQL (por defecto es 5432)
+            host="dpg-cuj5bhl2ng1s73f5i57g-a.oregon-postgres.render.com",       # Host de la base de datos
+            user="muestreo_user",                                               # Usuario de la base de datos
+            password="uTGpAYWSsEIaAdgXsS2P7Inxv6aj0vDS",                        # Contraseña del usuario
+            database="muestreo",                                                # Nombre de la base de datos
+            port="5432"                                                         # Puerto de PostgreSQL (por defecto es 5432)
         )
         
         # Verificar si la conexión fue exitosa
