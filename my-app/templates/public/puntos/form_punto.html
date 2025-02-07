@@ -1,0 +1,217 @@
+e){% extends 'public/base_cpanel.html' %}
+<!--Cambiando el title-->
+{% block title %}Crud con Python 🐍 | Registrar Puntos{% endblock %}
+<!---->
+{% block customCSS %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename ='assets/css/file.css') }}" />
+{% endblock %}
+
+<!--Inicio del block-->
+{% block body %}
+<div class="card" style="border-radius: 0px !important">
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-12">
+      <h3 class="text-center mt-5 mb-3">REGISTRAR NUEVO PUNTO GEOGRAFICO</h3>
+      <hr />
+    </div>
+  </div>
+
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-10">
+      <form
+        class="form-horizontal mx-auto"
+        method="POST"
+        action="/form-registrar-punto"
+        autocomplete="off"
+        enctype="multipart/form-data">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <label for="region" class="form-label">
+                Region
+              </label>
+              <input
+                type="text"
+                name="region"
+                class="form-control"
+                required />
+            </div>
+            <div class="col-md-6">
+              <label for="departamento" class="form-label">
+                Departamento
+              </label>
+              <input
+                class="form-control"
+                type="text"
+                name="departamento"
+                required />
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-md-6">
+              <label for="municipio" class="form-label">
+                Municipio
+              </label>
+              <input
+                type="text"
+                name="municipio"
+                class="form-control"
+                required />
+            </div>
+            <div class="col-md-6">
+              <label for="cod_hex" class="form-label">
+                Codigo del Punto
+              </label>
+              <input
+                class="form-control"
+                type="text"
+                name="cod_hex"
+                required />
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-md-6">
+              <label for="sup_parcelas" class="form-label">
+                Superficies de las parcelas
+              </label>
+              <input
+                type="number"
+                name="sup_parcelas"
+                class="form-control"
+                min="0"
+                step="any"
+                required />
+            </div>
+            <div class="col-md-6">
+              <label for="num_parcelas" class="form-label">
+                Numero de parcelas
+              </label>
+              <input
+                class="form-control"
+                type="number"
+                name="num_parcelas"
+                required />
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-md-6">
+              <label for="sup_muestra" class="form-label">
+                Superficies de la muestra
+              </label>
+              <input
+                type="number"
+                name="sup_muestra"
+                class="form-control"
+                min="0"
+                step="any"
+                required />
+            </div>
+            <div class="col-md-6">
+              <label for="num_muestra" class="form-label">
+                Numero de la parcelas de la muestra
+              </label>
+              <input
+                class="form-control"
+                type="number"
+                name="num_muestra"
+                required />
+            </div>
+          </div>
+          
+          <div class="row mt-2">
+            <div class="col-md-6">
+              <label for="densidad" class="form-label">
+                Densidad de la muestra
+              </label>
+              <input
+                type="number"
+                name="densidad"
+                class="form-control"
+                required />
+            </div>
+            <div class="col-md-6">
+              <label for="seleccionado" class="form-label">
+                Seleccion de la muestra
+              </label>
+              <select
+                class="form-select"
+                name="seleccionado"
+                aria-label="Default select example">
+                <option selected>Seleccione</option>
+                <option value="1">BORRADOR</option>
+                <option value="2">INCLUIR</option>
+                <option value="3">NUEVO</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-md-6">
+              <label for="longitud" class="form-label">
+                Longitud
+              </label>
+              <input
+                type="number"
+                name="longitud"
+                class="form-control"
+                step="any"
+                required />
+            </div>
+            <div class="col-md-6">
+              <label for="latitud" class="form-label">
+                Latitud
+              </label>
+              <input
+                class="form-control"
+                type="number"
+                name="latitud"
+                class="form-control"
+                step="any"
+                required />
+            </div>
+
+            <div class="col-md-6">
+              <label for="" class="form-label">
+                CARGAR FOTO DEL PUNTO
+              </label>
+              <div class="avatar-upload">
+                <div class="avatar-edit">
+                  <input
+                    type="file"
+                    name="foto_punto"
+                    id="imageUpload"
+                    accept=".png, .jpg, .jpeg" />
+                  <label for="imageUpload"><i class="bi bi-pen"></i></label>
+                </div>
+                <div class="avatar-preview">
+                  <div class="avatar-preview">
+                    {% set url_avatar= url_for('static', filename
+                    ='assets/img/avatar.png') %}
+                    <div
+                      id="imagePreview"
+                      style="background-image: url('{{ url_avatar }}')"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3 mt-4 text-center">
+            <button type="submit" class="btn rounded-pill btn-primary">
+              Guardar registro ahora
+              <i class="bi bi-arrow-clockwise"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block customJS %}
+<script src="{{ url_for('static', filename ='assets/customJS/file.js') }}"></script>
+{% endblock %}

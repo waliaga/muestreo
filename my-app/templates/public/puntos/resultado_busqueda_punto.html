@@ -1,0 +1,39 @@
+{% for punto in dataBusqueda %}
+<tr id="punto_{{ punto.id }}">
+  <td>{{ loop.index }}</td>
+  <td>{{ punto.region }}</td>
+  <td>{{ punto.departamento }}</td>
+  <td>{{ punto.municipio }}</td>
+  <td>{{ punto.cod_hex }}</td>
+  <td>{{ punto.sup_parcelas }}</td>
+  <td>{{ punto.num_parcelas }}</td>
+  <td>{{ punto.densidad }}</td>
+  <td>{{ punto.sup_muestra }}</td>
+  <td>{{ punto.num_muestra }}</td>
+  <td>{{ punto.seleccion_punto }}</td>
+  
+  <td>
+    <a
+      href="/detalles-punto/{{ punto.id }}"
+      title="Ver envio"
+      type="button"
+      class="btn btn-info btn-sm"
+      data-bs-toggle="tooltip"
+      data-bs-offset="0,4"
+      data-bs-placement="top"
+      data-bs-html="true"
+      title="<span>Ver detalles</span>">
+      <i class="bi bi-eye"></i>
+      Ver detalles
+    </a>
+    <a
+      href="{{ url_for('viewEditarPunto', id = punto.id) }}"
+      class="btn btn-success btn-sm"
+      tooltip="Actualizar Registro">
+      <i class="bi bi-arrow-clockwise"></i>
+      Actualizar
+    </a>
+  </td>
+</tr>
+
+{% endfor %}

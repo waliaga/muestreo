@@ -1,0 +1,212 @@
+{% extends 'public/base_cpanel.html' %}
+
+<!-- Cambiando el title -->
+{% block title %}Crud con Python 🐍 | Mapa {% endblock %}
+
+<!-- Inicio del block -->
+{% block body %}
+<div class="card" style="border-radius: 0px !important">
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-12">
+      <h3 class="text-center mt-5 mb-3">MAPA DE BOLIVIA</h3>
+      <hr />
+    </div>
+  </div>
+
+  <!-- Contenedor del mapa -->
+  <div id="map" style="height: 600px; width: 100%;"></div>
+</div>
+
+<!-- Dashboard -->
+<div class="container mt-4">
+  <h4>Dashboard Estadístico</h4>
+  <div class="row">
+    <!-- Cuadro 1: Superficies de las muestras por municipio -->
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Superficies por Municipio</h5>
+          <canvas id="surfaceChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cuadro 2: Densidades de las parcelas -->
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Densidades de Parcelas</h5>
+          <canvas id="densityChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Fin Dashboard -->
+
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  // Coordenadas de referencia: Villa Tunari
+  const villaTunari = [-16.653825, -65.686392];
+
+  // Inicializar el mapa
+  const map = L.map('map').setView(villaTunari, 6);
+
+  // Definir las capas de mapas base - OpenStreetMap, Imagen Satelital, Topográfico y Carreteras
+  const capaOpenStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+  });
+
+  // Capa de Imagen Satelital
+  const capaSatelital = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      attribution: '© Esri World Imagery'
+  });
+
+  // Capa Topográfica
+  const capaTopografica = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenTopoMap contributors'
+  });
+
+  // Capa de Carreteras
+  const capaCarreteras = L.tileLayer('https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png', {
+    attribution: '© Thunderforest'
+  });
+
+  // Suponiendo que los tiles están en la carpeta 'static/tiles/municipios' en tu servidor web 
+  const capaMunicipios = L.tileLayer('/static/tiles/municipios/{z}/{x}/{y}.jpg', { 
+    attribution: '© unodc' 
+  });
+
+  // Suponiendo que los tiles están en la carpeta 'static/tiles/unodc' en tu servidor web 
+  const capaUnodc = L.tileLayer('/static/tiles/unodc/{z}/{x}/{y}.jpg', { 
+    attribution: '© unodc' 
+  });
+
+  // Suponiendo que los tiles están en la carpeta 'static/tiles/hexagonos' en tu servidor web son los hexagonos finales 
+  const capaHexagonos = L.tileLayer('/static/tiles/hexagonos/{z}/{x}/{y}.png', { 
+    attribution: '© hexagonos' 
+  });
+
+  // Añadir la capa predeterminada (OpenStreetMap)
+  // capaOpenStreetMap.addTo(map);
+  capaSatelital.addTo(map);
+
+  // Control para cambiar entre capas de mapas base
+  const capasBase = {
+      "OpenStreetMap": capaOpenStreetMap,
+      "Imagen Satelital": capaSatelital,
+      "Topográfico": capaTopografica,
+      // "Carreteras": capaCarreteras,
+      "Municipios": capaMunicipios,
+      "UNODC": capaUnodc,
+      "Hexagonos": capaHexagonos
+  };
+
+  L.control.layers(capasBase).addTo(map);
+
+  // Función para cargar los marcadores
+  async function cargarMarcadores() {
+      try {
+          const response = await fetch('/parcelas');
+          const parcelas = await response.json();
+
+          parcelas.forEach(parcela => {
+              const { longitud_x, latitud_y, municipio, densidad, cod_hex, foto_punto } = parcela;
+
+              // Convertir las coordenadas a números
+              const lat = parseFloat(latitud_y);
+              const lng = parseFloat(longitud_x);
+
+              // Validar que las coordenadas sean números válidos
+              if (!isNaN(lat) && !isNaN(lng)) {
+                  // Crear un marcador para cada parcela
+                  L.marker([lat, lng]).addTo(map)
+                      .bindPopup(`
+                          <b>${municipio}</b><br>
+                          Codigo: ${cod_hex}<br> 
+                          Densidad: ${densidad}<br> 
+                          <img src="/static/fotos_puntos/${foto_punto}" alt="Foto de punto" style="width:100px;height:100px;"> `);
+              } else {
+                  console.warn('Coordenadas inválidas para:', parcela);
+              }
+          });
+      } catch (error) {
+          console.error('Error al cargar los marcadores:', error);
+      }
+  }
+
+  // Función para cargar el archivo GeoJSON y agregarlo al mapa
+  async function cargarGeoJSON() {
+      try {
+          const response = await fetch('/static/geojson/limites_municipales.geojson');
+          const data = await response.json();
+
+          // Agregar la capa GeoJSON al mapa
+          L.geoJSON(data).addTo(map);
+      } catch (error) {
+          console.error('Error al cargar el archivo GeoJSON:', error);
+      }
+  }
+
+
+  // Cargar los marcadores al iniciar la página
+  cargarMarcadores();
+  //cargarGeoJSON();
+  
+
+  // Gráfico de superficies por municipio
+  const surfaceCtx = document.getElementById('surfaceChart').getContext('2d');
+  const surfaceChart = new Chart(surfaceCtx, {
+    type: 'bar',
+    data: {
+      labels: {{ surface_labels | tojson }},
+      datasets: [{
+        label: 'Superficie por Municipio',
+        data: {{ surface_data | tojson }},
+        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+  // Gráfico de densidades
+  const densityCtx = document.getElementById('densityChart').getContext('2d');
+  const densityChart = new Chart(densityCtx, {
+    type: 'pie',
+    data: {
+      labels: {{ density_labels | tojson }},
+      datasets: [{
+        label: 'Densidades de Parcelas',
+        data: {{ density_data | tojson }},
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)'
+        ],
+        borderWidth: 1
+      }]
+    }
+  });
+</script>
+{% endblock %}

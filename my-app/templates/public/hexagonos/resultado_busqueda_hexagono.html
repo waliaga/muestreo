@@ -1,0 +1,39 @@
+{% for hexagono in dataBusqueda %}
+<tr id="hexagono_{{ hexagono.id }}">
+  <td>{{ loop.index }}</td>
+  <td>{{ hexagono.region }}</td>
+  <td>{{ hexagono.departamento }}</td>
+  <td>{{ hexagono.municipio }}</td>
+  <td>{{ hexagono.cod_hex }}</td>
+  <td>{{ hexagono.sup_parcelas }}</td>
+  <td>{{ hexagono.num_parcelas }}</td>
+  <td>{{ hexagono.densidad }}</td>
+  <td>{{ hexagono.sup_muestra }}</td>
+  <td>{{ hexagono.num_muestra }}</td>
+  <td>{{ hexagono.seleccion_hexagono }}</td>
+  
+  <td>
+    <a
+      href="/detalles-hexagono/{{ hexagono.id }}"
+      title="Ver envio"
+      type="button"
+      class="btn btn-info btn-sm"
+      data-bs-toggle="tooltip"
+      data-bs-offset="0,4"
+      data-bs-placement="top"
+      data-bs-html="true"
+      title="<span>Ver detalles</span>">
+      <i class="bi bi-eye"></i>
+      Ver detalles
+    </a>
+    <a
+      href="{{ url_for('viewEditarHexagono', id = hexagono.id) }}"
+      class="btn btn-success btn-sm"
+      tooltip="Actualizar Registro">
+      <i class="bi bi-arrow-clockwise"></i>
+      Actualizar
+    </a>
+  </td>
+</tr>
+
+{% endfor %}

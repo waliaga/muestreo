@@ -1,0 +1,170 @@
+{% extends 'public/base_cpanel.html' %}
+<!--Cambiando el title-->
+{% block title %}Crud con Python 🐍 | Actualizar hexagono{% endblock %}
+<!---->
+{% block customCSS %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename ='assets/css/file.css') }}" />
+{% endblock %}
+
+<!--Inicio del block-->
+{% block body %}
+<div class="card" style="border-radius: 0px !important">
+  {% if respuestaHexagono|length %}
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-12">
+      <h3 class="text-center mt-5 mb-3">
+        <a href="/lista-de-hexagonos">
+          <i class="bi bi-arrow-left-circle"></i>
+        </a>
+        ACTUALIZAR DATOS DEL HEXAGONO
+      </h3>
+      <hr />
+    </div>
+  </div>
+
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-10">
+      <form
+        class="form-horizontal mx-auto"
+        method="POST"
+        action="{{ url_for('actualizarHexagono', id = respuestaHexagono.id ) }}"
+        autocomplete="off"
+        enctype="multipart/form-data">
+        <input
+          type="text"
+          class="form-control"
+          name="id"
+          value="{{ respuestaHexagono.id }}"
+          required
+          hidden />
+
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <label for="region" class="form-label">
+                Region del hexagono
+              </label>
+              <input
+                type="text"
+                name="region"
+                value="{{ respuestaHexagono.region }}"
+                class="form-control"
+                required />
+            </div>
+            <div class="col-md-6">
+              <label for="departamento" class="form-label">
+                Departamento del hexagono
+              </label>
+              <input
+                class="form-control"
+                type="text"
+                name="departamento"
+                value="{{ respuestaHexagono.departamento }}"
+                required />
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-md-6">
+              <label for="municipio" class="form-label">
+                municipio del hexagono
+              </label>
+              <input
+                class="form-control"
+                type="text"
+                name="municipio"
+                value="{{ respuestaHexagono.municipio }}"
+                required />
+            </div>
+            <div class="col-md-6">
+              <label for="cod_hex" class="form-label">
+                Código del hexagono
+              </label>
+              <input
+                class="form-control"
+                type="text"
+                name="cod_hex"
+                value="{{ respuestaHexagono.cod_hex }}"
+                required />
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-md-6">
+              <label for="sup_parcelas" class="form-label">
+                Superficie de la Parcela del hexagono
+              </label>
+              <input
+              class="form-control"
+              type="number"
+              name="sup_parcelas"
+              value="{{ respuestaHexagono.sup_parcelas if respuestaHexagono.sup_parcelas else 0 }}"
+              min="0"
+              step="any"
+              required />
+            </div>
+            <div class="col-md-6">
+              <label for="num_parcelas" class="form-label">
+                Numero de la Parcela del hexagono
+              </label>
+              <input
+                class="form-control"
+                type="number"
+                name="num_parcelas"
+                value="{{ respuestaHexagono.num_parcelas if respuestaHexagono.num_parcelas else 0}}"
+		            min="0"
+                required />
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-md-6">
+              <label for="sup_muestra" class="form-label">
+                Superficie de muestra del hexagono
+              </label>
+              <input
+                class="form-control"
+                type="number"
+                name="sup_muestra"
+                value="{{ respuestaHexagono.sup_muestra if respuestaHexagono.sup_muestra else 0 }}"
+                min="0"
+                step="any"
+                required />
+            </div>
+            <div class="col-md-6">
+              <label for="num_muestra" class="form-label">
+                Numero de muestra hexagono
+              </label>
+              <input
+                class="form-control"
+                type="number"
+                name="num_muestra"
+                value="{{ respuestaHexagono.num_muestra if respuestaHexagono.num_muestra else 0}}"
+		            min="0"
+                required />
+            </div>
+          </div>
+          <div class="mb-3 mt-4 text-center">
+            <button type="submit" class="btn rounded-pill btn-primary">
+              Guardar registro ahora
+              <i class="bi bi-arrow-clockwise"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  {% else %}
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-12">
+      <h3 class="text-center">No existe el hexagono</h3>
+    </div>
+  </div>
+
+  {% endif %}
+</div>
+{% endblock %} {% block customJS %}
+<script src="{{ url_for('static', filename ='assets/customJS/file.js') }}"></script>
+{% endblock %}

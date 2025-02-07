@@ -1,0 +1,107 @@
+{% extends 'public/base_cpanel.html' %}
+<!--Cambiando el title-->
+{% block title %}Crud con Python 🐍 | Registrar hexagono{% endblock %}
+<!---->
+{% block customCSS %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename ='assets/css/file.css') }}" />
+{% endblock %}
+
+<!--Inicio del block-->
+{% block body %}
+<!---->
+{% if (detalle_hexagono|length) %}
+<div class="card" style="border-radius: 0px !important">
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-12">
+      <h3 class="text-center mt-5 mb-3">
+        <a href="/lista-de-hexagonos">
+          <i class="bi bi-arrow-left-circle"></i>
+        </a>
+        INFORMACIÓN DEL HEXAGONO
+      </h3>
+      <hr />
+    </div>
+  </div>
+
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-10">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <label for="region" class="form-label">
+              Region del hexagono
+            </label>
+            <br />
+            {{ detalle_hexagono.region}}
+          </div>
+          <div class="col-md-6">
+            <label for="departamento" class="form-label">
+              Departamento del hexagono
+            </label>
+            <br />
+            {{ detalle_hexagono.departamento}}
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <div class="col-md-6">
+            <label for="municipio" class="form-label">
+              Municipio del hexagono
+            </label>
+            <br />
+            {{ detalle_hexagono.municipio}}
+          </div>
+          <div class="col-md-6">
+            <label for="cod_hex" class="form-label">
+              Codigo del hexagono
+            </label>
+            <br />
+            {{ detalle_hexagono.cod_hex}}
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <div class="col-md-6">
+            <label for="sup_parcelas" class="form-label">
+              Superficie de las parcelas del hexagono
+            </label>
+            <br />
+            {{ detalle_hexagono.sup_parcelas}}
+          </div>
+          <div class="col-md-6">
+            <label for="num_parcelas" class="form-label">
+              Numero de Parcelas del hexagono
+            </label>
+            <br />
+            {{ detalle_hexagono.num_parcelas}}
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <div class="col-md-6">
+            <label for="sup_muestra" class="form-label">
+              Superficie de parcelas de la muestra del hexagono
+            </label>
+            <br />
+            {{ detalle_hexagono.sup_muestra}}
+          </div>
+          <div class="col-md-6">
+            <label for="num_parcelas" class="form-label">
+              Numero de Parcelas de la muestra del hexagono
+            </label>
+            <br />
+            {{ detalle_hexagono.num_muestra}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% else %}
+<h2 class="text-center">
+  No existe el hexagono 😭
+  <hr />
+</h2>
+{% endif %} {% endblock %}

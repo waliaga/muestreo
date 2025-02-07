@@ -1,0 +1,36 @@
+{% for municipio in dataBusqueda %}
+<tr id="municipio_{{ municipio.id }}">
+  <td>{{ loop.index }}</td>
+  <td>{{ municipio.region }}</td>
+  <td>{{ municipio.departamento }}</td>
+  <td>{{ municipio.municipio }}</td>
+  <td>ha {{ '{:,.2f}'.format(municipio.sup_parcelas).replace(',', '.')}}</td>
+  <td> {{ '{:,.0f}'.format(municipio.num_parcelas).replace(',', '.')}}</td>
+  <td>ha {{ '{:,.2f}'.format(municipio.sup_muestra).replace(',', '.')}}</td>
+  <td>{{ municipio.seleccion_municipio }}</td>
+
+  <td>
+    <a
+      href="/detalles-municipio/{{ municipio.id }}"
+      title="Ver envio"
+      type="button"
+      class="btn btn-info btn-sm"
+      data-bs-toggle="tooltip"
+      data-bs-offset="0,4"
+      data-bs-placement="top"
+      data-bs-html="true"
+      title="<span>Ver detalles</span>">
+      <i class="bi bi-eye"></i>
+      Ver detalles
+    </a>
+    <a
+      href="{{ url_for('viewEditarMunicipio', id = municipio.id) }}"
+      class="btn btn-success btn-sm"
+      tooltip="Actualizar Registro">
+      <i class="bi bi-arrow-clockwise"></i>
+      Actualizar
+    </a>
+  </td>
+</tr>
+
+{% endfor %}

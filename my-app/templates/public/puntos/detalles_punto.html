@@ -1,0 +1,115 @@
+{% extends 'public/base_cpanel.html' %}
+<!--Cambiando el title-->
+{% block title %}Crud con Python 🐍 | Registrar punto{% endblock %}
+<!---->
+{% block customCSS %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename ='assets/css/file.css') }}" />
+{% endblock %}
+
+<!--Inicio del block-->
+{% block body %}
+<!---->
+{% if (detalle_punto|length) %}
+<div class="card" style="border-radius: 0px !important">
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-12">
+      <h3 class="text-center mt-5 mb-3">
+        <a href="/lista-de-puntos">
+          <i class="bi bi-arrow-left-circle"></i>
+        </a>
+        INFORMACIÓN DEL PUNTO
+      </h3>
+      <hr />
+    </div>
+  </div>
+
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-10">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <label for="region" class="form-label">
+              Region del punto
+            </label>
+            <br />
+            {{ detalle_punto.region}}
+          </div>
+          <div class="col-md-6">
+            <label for="departamento" class="form-label">
+              Departamento del punto
+            </label>
+            <br />
+            {{ detalle_punto.departamento}}
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <div class="col-md-6">
+            <label for="municipio" class="form-label">
+              Municipio del punto
+            </label>
+            <br />
+            {{ detalle_punto.municipio}}
+          </div>
+          <div class="col-md-6">
+            <label for="cod_hex" class="form-label">
+              Codigo del punto
+            </label>
+            <br />
+            {{ detalle_punto.cod_hex}}
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <div class="col-md-6">
+            <label for="sup_parcelas" class="form-label">
+              Superficie de las parcelas del punto
+            </label>
+            <br />
+            {{ detalle_punto.sup_parcelas}}
+          </div>
+          <div class="col-md-6">
+            <label for="num_parcelas" class="form-label">
+              Numero de Parcelas del punto
+            </label>
+            <br />
+            {{ detalle_punto.num_parcelas}}
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <div class="col-md-6">
+            <label for="sup_muestra" class="form-label">
+              Superficie de parcelas de la muestra del punto
+            </label>
+            <br />
+            {{ detalle_punto.sup_muestra}}
+          </div>
+          <div class="col-md-6">
+            <label for="num_parcelas" class="form-label">
+              Numero de Parcelas de la muestra del punto
+            </label>
+            <br />
+            {{ detalle_punto.num_muestra}}
+          </div>
+          <div class="col-md-6">
+            <label for="" class="form-label"> FOTO DEL PUNTO </label>
+            <br />
+            <img
+              style="width: 200px"
+              src="/static/fotos_puntos/{{ detalle_punto.foto_punto }}"
+              alt="imagen-empleado" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% else %}
+<h2 class="text-center">
+  No existe el punto 😭
+  <hr />
+</h2>
+{% endif %} {% endblock %}

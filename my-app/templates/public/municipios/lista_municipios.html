@@ -1,0 +1,116 @@
+{% extends 'public/base_cpanel.html' %}
+<!--Cambiando el title-->
+{% block title %}Crud con Python 🐍 | Lista de Municipios{% endblock %}
+<!--Inicio del block-->
+{% block body %}
+
+<div class="card" style="border-radius: 0px !important">
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-12 mb-4">
+      <h3 class="text-center mt-5 mb-3">LISTA DE MUNICIPIOS</h3>
+      <hr />
+    </div>
+
+
+    <div class="row justify-content-end mb-3">
+      <div class="col-md-6 text-end">
+        <a
+          href="/descargar-informe-municipios"
+          class="btn btn-success"
+          title="Exportar a Excel">
+          <i class="bi bi-file-earmark-excel"></i>
+          Exportar a Excel
+        </a>
+      </div>
+
+      <!-- Botón para resetear tablas -->
+      <div class="col-md-6 text-start">
+        <form action="/resetear-tablas/" method="POST">
+          <button type="submit" class="btn btn-warning" title="Resetear Tablas">
+            <i class="bi bi-arrow-counterclockwise"></i>
+            Resetear Tablas
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="row justify-content-end">
+      <div class="col-md-6 mt-4 py-2">
+        <label for="municipio" class="form-label">
+          Buscar por municipio
+        </label>
+        <input
+          type="search"
+          id="search"
+          class="form-control border-0 shadow-none"
+          placeholder="Ingresar el nombre del municipio..."
+          onkeyup="buscadorTable('unodc_municipios', 1)"
+          />
+      </div>
+    </div>
+
+    <div class="row justify-content-center mb-2">
+      <div class="table-responsive text-nowrap table-hover">
+        <table
+          table-hover
+          id="unodc_municipios"
+          class="table table-striped table-bordered"
+          cellspacing="0"
+          width="100%">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Region</th>
+              <th>Departamento</th>
+              <th>Municipio</th>
+              <th>Sup Parcelas</th>
+              <th>Num Parcelas</th>
+              <th>Sup Muestra</th>
+              <th>Seleccionado?</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for municipio in municipios %}
+            <tr id="municipio_{{ municipio.id }}">
+              <td>{{ loop.index }}</td>
+              <td>{{ municipio.region }}</td>
+              <td>{{ municipio.departamento }}</td>
+              <td>{{ municipio.municipio }}</td>
+              <td>{{ municipio.sup_parcelas }}</td>
+              <td>{{ municipio.num_parcelas }}</td>
+              <td>{{ municipio.sup_muestra }}</td>
+              <td>{{ municipio.seleccion_municipio }}</td>
+
+              <td width="10px">
+                <a
+                  href="/detalles-municipio/{{ municipio.id }}"
+                  title="Ver envio"
+                  type="button"
+                  class="btn btn-info btn-sm"
+                  data-bs-toggle="tooltip"
+                  data-bs-offset="0,4"
+                  data-bs-placement="top"
+                  data-bs-html="true"
+                  title="<span>Ver detalles</span>">
+                  <i class="bi bi-eye"></i>
+                  Ver detalles
+                </a>
+                <a
+                  href="{{ url_for('viewEditarMunicipio', id = municipio.id) }}"
+                  class="btn btn-success btn-sm"
+                  tooltip="Actualizar Registro">
+                  <i class="bi bi-arrow-clockwise"></i>
+                  Actualizar
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

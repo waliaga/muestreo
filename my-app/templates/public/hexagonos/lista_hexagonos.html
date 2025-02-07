@@ -1,0 +1,121 @@
+{% extends 'public/base_cpanel.html' %}
+<!--Cambiando el title-->
+{% block title %}Crud con Python 🐍 | Lista de hexagonos{% endblock %}
+<!--Inicio del block-->
+{% block body %}
+
+<div class="card" style="border-radius: 0px !important">
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-12 mb-4">
+      <h3 class="text-center mt-5 mb-3">LISTA DE HEXAGONOS</h3>
+      <hr />
+    </div>
+
+    <div class="row justify-content-end mb-3">
+      <div class="col-md-6 text-end">
+        <a
+          href="/descargar-informe-hexagonos"
+          class="btn btn-success"
+          title="Exportar a Excel">
+          <i class="bi bi-file-earmark-excel"></i>
+          Exportar a Excel
+        </a>
+      </div>
+
+    <!-- Botón para sortear -->
+    <div class="col-md-6 text-start">
+      <form action="/generar-muestras-aleatorias" method="POST">
+          <button type="submit" class="btn btn-warning" title="Resetear Tablas">
+              <i class="bi bi-arrow-counterclockwise"></i>
+              Sortear Hexagonos en Python
+          </button>
+      </form>
+    </div>
+    </div>
+
+
+    <div class="row justify-content-end">
+      <div class="col-md-6 mt-4 py-2">
+        <label for="hexagono" class="form-label">
+          Buscar por codigo de hexagono
+        </label>
+        <input
+          type="search"
+          id="search"
+          class="form-control border-0 shadow-none"
+          placeholder="Ingresar el codigo del hexagono..."
+          onkeyup="buscadorTable('unodc_hexagonos', 2)"
+          />
+      </div>
+    </div>
+
+    <div class="row justify-content-center mb-2">
+      <div class="table-responsive text-nowrap table-hover">
+        <table
+          table-hover
+          id="unodc_hexagonos"
+          class="table table-striped table-bordered"
+          cellspacing="0"
+          width="100%">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Region</th>
+              <th>Departamento</th>
+              <th>Municipio</th>
+              <th>Codigo Hexagono</th>
+              <th>Sup Parcelas</th>
+              <th>Num Parcelas</th>
+              <th>Densidad</th>
+              <th>Sup Muestra</th>
+              <th>Num Muestra</th>
+              <th>Seleccionado?</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for hexagono in hexagonos %}
+            <tr id="hexagono_{{ hexagono.id }}">
+              <td>{{ loop.index }}</td>
+              <td>{{ hexagono.region }}</td>
+              <td>{{ hexagono.departamento }}</td>
+              <td>{{ hexagono.municipio }}</td>
+              <td>{{ hexagono.cod_hex }}</td>
+              <td>{{ hexagono.sup_parcelas }}</td>
+              <td>{{ hexagono.num_parcelas }}</td>
+              <td>{{ hexagono.densidad }}</td>
+              <td>{{ hexagono.sup_muestra }}</td>
+              <td>{{ hexagono.num_muestra }}</td>
+              <td>{{ hexagono.seleccion_hexagono }}</td>
+              <td width="10px">
+                <a
+                  href="/detalles-hexagono/{{ hexagono.id }}"
+                  title="Ver envio"
+                  type="button"
+                  class="btn btn-info btn-sm"
+                  data-bs-toggle="tooltip"
+                  data-bs-offset="0,4"
+                  data-bs-placement="top"
+                  data-bs-html="true"
+                  title="<span>Ver detalles</span>">
+                  <i class="bi bi-eye"></i>
+                  Ver detalles
+                </a>
+                <a
+                  href="{{ url_for('viewEditarHexagono', id = hexagono.id) }}"
+                  class="btn btn-success btn-sm"
+                  tooltip="Actualizar Registro">
+                  <i class="bi bi-arrow-clockwise"></i>
+                  Actualizar
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,125 @@
+{% extends 'public/base_cpanel.html' %}
+<!--Cambiando el title-->
+{% block title %}Crud con Python 🐍 | Lista de puntos{% endblock %}
+<!--Inicio del block-->
+{% block body %}
+
+<div class="card" style="border-radius: 0px !important">
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-12 mb-4">
+      <h3 class="text-center mt-5 mb-3">LISTA DE PUNTOS</h3>
+      <hr />
+    </div>
+
+    <!-- Botón para exportar a Excel -->
+    <div class="row justify-content-end mb-3">
+      <div class="col-md-12 text-end">
+        <a
+          href="/descargar-informe-puntos"
+          class="btn btn-success"
+          title="Exportar a Excel">
+          <i class="bi bi-file-earmark-excel"></i>
+          Exportar a Excel
+        </a>
+      </div>
+    </div>
+
+    <div class="row justify-content-end">
+      <div class="col-md-6 mt-4 py-2">
+        <label for="punto" class="form-label">
+          Buscar por codigo de punto
+        </label>
+        <input
+          type="search"
+          id="search"
+          class="form-control border-0 shadow-none"
+          placeholder="Ingresar el codigo del punto..."
+          onkeyup="buscadorTable('unodc_puntos', 2)"
+          />
+      </div>
+    </div>
+
+    <div class="row justify-content-center mb-2">
+      <div class="table-responsive text-nowrap table-hover">
+        <table
+          table-hover
+          id="unodc_puntos"
+          class="table table-striped table-bordered"
+          cellspacing="0"
+          width="100%">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Region</th>
+              <th>Departamento</th>
+              <th>Municipio</th>
+              <th>Codigo Hexagono</th>
+              <th>Sup Parcelas</th>
+              <th>Num Parcelas</th>
+              <th>Densidad</th>
+              <th>Sup Muestra</th>
+              <th>Num Muestra</th>
+              <th>Seleccionado?</th>
+              <th>Foto</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for punto in puntos %}
+            <tr id="punto_{{ punto.id }}">
+              <td>{{ loop.index }}</td>
+              <td>{{ punto.region }}</td>
+              <td>{{ punto.departamento }}</td>
+              <td>{{ punto.municipio }}</td>
+              <td>{{ punto.cod_hex }}</td>
+              <td>{{ punto.sup_parcelas }}</td>
+              <td>{{ punto.num_parcelas }}</td>
+              <td>{{ punto.densidad }}</td>
+              <td>{{ punto.sup_muestra }}</td>
+              <td>{{ punto.num_muestra }}</td>
+              <td>{{ punto.seleccion_hexagono }}</td>
+              <td><img src="/static/fotos_puntos/{{ punto.foto_punto }}" alt="Foto del punto" style="width:100px;height:100px;"></td>
+              <td width="10px">
+                <a
+                  href="/detalles-punto/{{ punto.id }}"
+                  title="Ver envio"
+                  type="button"
+                  class="btn btn-info btn-sm"
+                  data-bs-toggle="tooltip"
+                  data-bs-offset="0,4"
+                  data-bs-placement="top"
+                  data-bs-html="true"
+                  title="<span>Ver detalles</span>">
+                  <i class="bi bi-eye"></i>
+                  Ver detalles
+                </a>
+                <a
+                  href="{{ url_for('viewEditarPunto', id = punto.id) }}"
+                  class="btn btn-success btn-sm"
+                  tooltip="Actualizar Registro">
+                  <i class="bi bi-arrow-clockwise"></i>
+                  Actualizar
+                </a>
+                <a
+                href="#"
+                onclick="eliminarPunto('{{ punto.id }}','{{ punto.foto_punto }}');"
+                class="btn btn-danger btn-sm"
+                data-bs-toggle="tooltip"
+                data-bs-offset="0,4"
+                data-bs-placement="top"
+                data-bs-html="true"
+                title="<span>Eliminar punto {{ punto.cod_hex }}</span>">
+                <i class="bi bi-trash3"></i>
+                Eliminar
+              </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends 'public/base_cpanel.html' %}
+<!--Cambiando el title-->
+{% block title %}Crud con Python 🐍 | Registrar municipio{% endblock %}
+<!---->
+{% block customCSS %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename ='assets/css/file.css') }}" />
+{% endblock %}
+
+<!--Inicio del block-->
+{% block body %}
+<!---->
+{% if (detalle_municipio|length) %}
+<div class="card" style="border-radius: 0px !important">
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-12">
+      <h3 class="text-center mt-5 mb-3">
+        <a href="/lista-de-municipios">
+          <i class="bi bi-arrow-left-circle"></i>
+        </a>
+        INFORMACIÓN DEL MUNICIPIO
+      </h3>
+      <hr />
+    </div>
+  </div>
+
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-10">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <label for="municipio" class="form-label">
+              Nombre del municipio
+            </label>
+            <br />
+            {{ detalle_municipio.municipio}}
+          </div>
+          <div class="col-md-6">
+            <label for="region" class="form-label">
+              Region del municipio
+            </label>
+            <br />
+            {{ detalle_municipio.region}}
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <div class="col-md-6">
+            <label for="departamento" class="form-label">
+              Departamento del municipio
+            </label>
+            <br />
+            {{ detalle_municipio.departamento}}
+          </div>
+          <div class="col-md-6">
+            <label for="sup_parcelas" class="form-label">
+              Superficie de las parcelas del municipio
+            </label>
+            <br />
+            {{ detalle_municipio.sup_parcelas}}
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <div class="col-md-6">
+            <label for="num_parcelas" class="form-label">
+              Numero de Parcelas del municipio
+            </label>
+            <br />
+            {{ detalle_municipio.num_parcelas}}
+          </div>
+          <div class="col-md-6">
+            <label for="sup_muestra" class="form-label">
+              Superfice para la Muestra del municipio
+            </label>
+            <br />
+            {{ detalle_municipio.sup_muestra}}
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+{% else %}
+<h2 class="text-center">
+  No existe el municipio 😭
+  <hr />
+</h2>
+{% endif %} {% endblock %}
